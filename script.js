@@ -12,8 +12,8 @@ var heightSVG = 0;
 var widthBox = 0;
 var heightBox = 0;
 
-var velX = 6;
-var velY = 3;
+var velX = 10;
+var velY = 8;
 
 
 
@@ -43,6 +43,7 @@ function principalLoop(){
 
     setWindowDim();
     moveBall();
+    checkCrash();
     window.requestAnimationFrame(principalLoop);
 }
 
@@ -68,7 +69,6 @@ function moveBall(){
 
 // Asign dinamic positions to the text of Players and the Box rectangle
 function setWindowDim(){
-    console.log(p1.getBoundingClientRect().width)
 
     p1.setAttribute("x", widthSVG/2 - (p1.getBoundingClientRect().width)-20);
     p2.setAttribute("x", widthSVG/2 + 20);
@@ -92,5 +92,19 @@ function moveBar(e){
         p1Bar.setAttribute("y", heightBox-p1Bar.getBoundingClientRect().height+10);
     }else{
         p1Bar.setAttribute("y", barCenterY);
+    }
+}
+
+// Check if the Ball crash with the Bar
+function checkCrash(){
+    // Heigth Ball: 15px
+    // Widht Ball: 15px
+
+    // Width Bar: 25px
+    // Height Bar: 120px
+    // Distance Bar from the side; 25px
+
+    if((parseInt(ball.getAttribute("x"))<(25+25)) && ( (parseInt(ball.getAttribute("y"))>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))<(parseInt(p1Bar.getAttribute("y"))+120)) || (parseInt(ball.getAttribute("y"))+15>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))+15<(parseInt(p1Bar.getAttribute("y"))+120)))){
+        velX *= -1;
     }
 }
