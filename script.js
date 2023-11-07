@@ -1,0 +1,96 @@
+var ball;
+var svg;
+var p1;
+var p2;
+
+var p1Bar;
+var p2Bar;
+
+var widthSVG = 0;
+var heightSVG = 0;
+
+var widthBox = 0;
+var heightBox = 0;
+
+var velX = 6;
+var velY = 3;
+
+
+
+window.onload = () => {
+    ball = document.getElementById("ball");
+    svg = document.getElementById("svg");4
+    box = document.getElementById("box");
+
+    p1 = document.getElementById("player1");
+    p2 = document.getElementById("player2");
+
+    p1Bar = document.getElementById("p1Bar");
+    p2Bar = document.getElementById("p2Bar");
+
+    document.addEventListener("mousemove", moveBar);
+    
+    window.requestAnimationFrame(principalLoop);
+}
+
+// Controll of the program
+function principalLoop(){
+    widthSVG = svg.getBoundingClientRect().width;
+    heightSVG = svg.getBoundingClientRect().height;
+
+    widthBox = box.getBoundingClientRect().width;
+    heightBox = box.getBoundingClientRect().height;
+
+    setWindowDim();
+    moveBall();
+    window.requestAnimationFrame(principalLoop);
+}
+
+// Moves the ball
+function moveBall(){
+    let x = parseInt(ball.getAttribute("x"));
+    let y = parseInt(ball.getAttribute("y"));
+
+    // Move X
+    if(x+velX > widthBox || x+velX < 10){
+        velX *= -1;
+    } else {
+        ball.setAttribute("x", x+velX);
+    }
+
+    // Move Y
+    if(y+velY > heightBox || y+velY < 10){
+        velY *= -1;
+    } else {
+        ball.setAttribute("y", y+velY);
+    }
+}
+
+// Asign dinamic positions to the text of Players and the Box rectangle
+function setWindowDim(){
+    console.log(p1.getBoundingClientRect().width)
+
+    p1.setAttribute("x", widthSVG/2 - (p1.getBoundingClientRect().width)-20);
+    p2.setAttribute("x", widthSVG/2 + 20);
+
+    box.setAttribute("width", widthSVG-20);
+    box.setAttribute("height", heightSVG-20);
+}
+
+// Moves the bar with the mouse
+function moveBar(e){
+    var mouseY = e.clientY;
+
+    // Obtiene la posición vertical del centro de la barra
+    var barCenterY = mouseY - p1Bar.getBoundingClientRect().height / 2;
+
+    // Limita la posición de la barra para que no se salga del área del juego
+    if(e.clientY < (p1Bar.getBoundingClientRect().height/2)+10){
+        p1Bar.setAttribute("y", 10);
+    }
+    else if(e.clientY > (heightSVG-(p1Bar.getBoundingClientRect().height/2)-10)){
+        p1Bar.setAttribute("y", heightBox-p1Bar.getBoundingClientRect().height+10);
+    }else{
+        p1Bar.setAttribute("y", barCenterY);
+    }
+}
