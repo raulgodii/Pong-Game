@@ -35,7 +35,7 @@ text {
     color: yellow;
 }
 
-#title{
+#title, .yellow{
     color: yellow;
     font-size: 80px;
 }
