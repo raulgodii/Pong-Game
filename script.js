@@ -22,8 +22,8 @@ window.onload = () => {
     svg = document.getElementById("svg");4
     box = document.getElementById("box");
 
-    p1 = document.getElementById("player1");
-    p2 = document.getElementById("player2");
+    p1 = document.getElementById("player1"); // Text
+    p2 = document.getElementById("player2"); // Text
 
     p1Bar = document.getElementById("p1Bar");
     p2Bar = document.getElementById("p2Bar");
@@ -43,7 +43,8 @@ function principalLoop(){
 
     setWindowDim();
     moveBall();
-    checkCrash();
+    checkCrashP1();
+    moveBotBar();
     window.requestAnimationFrame(principalLoop);
 }
 
@@ -75,9 +76,11 @@ function setWindowDim(){
 
     box.setAttribute("width", widthSVG-20);
     box.setAttribute("height", heightSVG-20);
+
+    p2Bar.setAttribute("x", widthSVG-25-25);
 }
 
-// Moves the bar with the mouse
+// Moves the bar of the player with the mouse
 function moveBar(e){
     var mouseY = e.clientY;
 
@@ -95,8 +98,15 @@ function moveBar(e){
     }
 }
 
+// Moves the bar with a small "AI" like a bot
+function moveBotBar(){
+    centerBallY = parseFloat(ball.getAttribute("y"))+(15/2);
+
+    p2Bar.setAttribute("y", centerBallY-60);
+}
+
 // Check if the Ball crash with the Bar
-function checkCrash(){
+function checkCrashP1(){
     // Heigth Ball: 15px
     // Widht Ball: 15px
 
