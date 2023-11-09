@@ -148,6 +148,9 @@ function setWindowDim(){
     restart.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthRestart)/2)));
     restart.setAttribute("y", (parseInt(heightSVG)/2)+20);
 
+    widthResult = result.getBoundingClientRect().width;
+    result.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthResult)/2)));
+
 }
 
 // Moves the bar of the player with the mouse
