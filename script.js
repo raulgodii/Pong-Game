@@ -19,6 +19,7 @@ var velY = 8;
 
 var lose;
 var start;
+var restart;
 
 window.onload = () => {
     ball = document.getElementById("ball");
@@ -35,6 +36,7 @@ window.onload = () => {
 
     lose = document.getElementById("lose");
     start = document.getElementById("start");
+    restart = document.getElementById("restart");
 
     document.addEventListener("mousemove", moveBar);
 
@@ -46,14 +48,18 @@ window.onload = () => {
     p2.style.display = "none";
     lose.style.display = "none";
     start.style.display = "block";
+    restart.style.display = "none";
 
-    window.requestAnimationFrame(principalLoop);
-    
+    setWindowDim();
+
+    start.addEventListener('click', ()=>{
+        restartGame();
+        window.requestAnimationFrame(principalLoop);
+    });
 }
 
 // Start the Game
-function startGame(){
-
+function restartGame(){
     ball.setAttribute("x", widthSVG/2);
 
     p1Bar.style.display = "block";
@@ -64,15 +70,11 @@ function startGame(){
     p2.style.display = "block";
     lose.style.display = "none";
     start.style.display = "none";
+    restart.style.display = "none";
 }
 
 // Controll of the program
 function principalLoop(){
-    widthSVG = svg.getBoundingClientRect().width;
-    heightSVG = svg.getBoundingClientRect().height;
-
-    widthBox = box.getBoundingClientRect().width;
-    heightBox = box.getBoundingClientRect().height;
 
     setWindowDim();
     moveBall();
@@ -107,6 +109,12 @@ function moveBall(){
 // Asign dinamic positions to the text of Players, the Box rectangle, and Lose Text
 function setWindowDim(){
 
+    widthSVG = svg.getBoundingClientRect().width;
+    heightSVG = svg.getBoundingClientRect().height;
+
+    widthBox = box.getBoundingClientRect().width;
+    heightBox = box.getBoundingClientRect().height;
+
     p1.setAttribute("x", widthSVG/2 - (p1.getBoundingClientRect().width)-20);
     p2.setAttribute("x", widthSVG/2 + 20);
 
@@ -122,6 +130,10 @@ function setWindowDim(){
     widthStart = start.getBoundingClientRect().width;
     start.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthStart)/2)));
     start.setAttribute("y", (parseInt(heightSVG)/2)+20);
+
+    widthRestart = restart.getBoundingClientRect().width;
+    restart.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthRestart)/2)));
+    restart.setAttribute("y", (parseInt(heightSVG)/2)+20);
 
 }
 
@@ -202,6 +214,7 @@ function endGame(){
     line.style.display = "none";
     p1.style.display = "none";
     p2.style.display = "none";
+    restart.style.display = "none";
     lose.style.display = "block";
-    start.style.display = "block";
+    restart.style.display = "block";
 }

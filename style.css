@@ -25,7 +25,7 @@ text {
     display: none;
 }
 
-#start:hover{
+#start:hover, #restart:hover{
     text-decoration: underline;
     cursor: pointer;
 }
