@@ -21,6 +21,7 @@ var lose;
 var start;
 var restart;
 var cont;
+var result;
 
 window.onload = () => {
     ball = document.getElementById("ball");
@@ -39,6 +40,7 @@ window.onload = () => {
     start = document.getElementById("start");
     restart = document.getElementById("restart");
     cont = document.getElementById("cont");
+    result = document.getElementById("result");
 
     document.addEventListener("mousemove", moveBar);
 
@@ -52,6 +54,7 @@ window.onload = () => {
     start.style.display = "block";
     restart.style.display = "none";
     cont.style.display = "none";
+    result.style.display = "none";
 
     setWindowDim();
 
@@ -79,6 +82,7 @@ function restartGame(){
     cont.style.display = "block";
     start.style.display = "none";
     restart.style.display = "none";
+    result.style.display = "none";
 }
 
 // Controll of the program
@@ -222,6 +226,9 @@ function checkBallOut(){
 }
 
 function endGame(){
+    velX=0;
+    velY=0;
+    result.innerHTML = ("Result: " + cont.innerHTML);
     p1Bar.style.display = "none";
     p2Bar.style.display = "none";
     ball.style.display = "none";
@@ -232,4 +239,5 @@ function endGame(){
     cont.style.display = "none";
     lose.style.display = "block";
     restart.style.display = "block";
+    result.style.display = "block";
 }
