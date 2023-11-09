@@ -20,6 +20,7 @@ var velY = 8;
 var lose;
 var start;
 var restart;
+var cont;
 
 window.onload = () => {
     ball = document.getElementById("ball");
@@ -37,6 +38,7 @@ window.onload = () => {
     lose = document.getElementById("lose");
     start = document.getElementById("start");
     restart = document.getElementById("restart");
+    cont = document.getElementById("cont");
 
     document.addEventListener("mousemove", moveBar);
 
@@ -49,6 +51,7 @@ window.onload = () => {
     lose.style.display = "none";
     start.style.display = "block";
     restart.style.display = "none";
+    cont.style.display = "none";
 
     setWindowDim();
 
@@ -62,6 +65,10 @@ window.onload = () => {
 function restartGame(){
     ball.setAttribute("x", widthSVG/2);
 
+    velX = 10;
+    velY = 8;
+    cont.innerHTML = "0";
+
     p1Bar.style.display = "block";
     p2Bar.style.display = "block";
     ball.style.display = "block";
@@ -69,6 +76,7 @@ function restartGame(){
     p1.style.display = "block";
     p2.style.display = "block";
     lose.style.display = "none";
+    cont.style.display = "block";
     start.style.display = "none";
     restart.style.display = "none";
 }
@@ -117,6 +125,7 @@ function setWindowDim(){
 
     p1.setAttribute("x", widthSVG/2 - (p1.getBoundingClientRect().width)-20);
     p2.setAttribute("x", widthSVG/2 + 20);
+    cont.setAttribute("x", widthSVG/2 - (p1.getBoundingClientRect().width/2)-20);
 
     box.setAttribute("width", widthSVG-20);
     box.setAttribute("height", heightSVG-20);
@@ -181,7 +190,12 @@ function checkCrashP1(){
     // Distance Bar from the side; 25px
 
     if((parseInt(ball.getAttribute("x"))<(25+25)) && ( (parseInt(ball.getAttribute("y"))>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))<(parseInt(p1Bar.getAttribute("y"))+120)) || (parseInt(ball.getAttribute("y"))+15>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))+15<(parseInt(p1Bar.getAttribute("y"))+120)))){
-        velX *= -1;
+        cont.innerHTML= (parseInt(cont.innerHTML)+1);
+        if(velX<0){
+            velX = (velX-2)*-1;
+        }else{
+            velX = (velX+2)*-1; 
+        }
     }
 }
 
@@ -215,6 +229,7 @@ function endGame(){
     p1.style.display = "none";
     p2.style.display = "none";
     restart.style.display = "none";
+    cont.style.display = "none";
     lose.style.display = "block";
     restart.style.display = "block";
 }
