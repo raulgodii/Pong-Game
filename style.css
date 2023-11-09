@@ -18,3 +18,14 @@ text {
     font-size: 20px;
     fill: white;
 }
+
+#lose{
+    fill: red;
+    font-size: 60px;
+    display: none;
+}
+
+#start:hover{
+    text-decoration: underline;
+    cursor: pointer;
+}

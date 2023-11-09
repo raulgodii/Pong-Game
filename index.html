@@ -13,10 +13,12 @@
         <rect id="ball" x="300px" y="250px" width="15px" height="15px" fill="white"/>
         <rect id="p1Bar" x="25px" y="45px" width="25px" height="120px" fill="white"/>
         <rect id="p2Bar" x="25px" y="170px" width="25px" height="120px" fill="white"/>
-        <line x1="50%" y1="0%" x2="50%" y2="100%" stroke="white" stroke-width="2" stroke-dasharray="10,5" />
+        <line id="line" x1="50%" y1="0%" x2="50%" y2="100%" stroke="white" stroke-width="2" stroke-dasharray="10,5" />
         <rect id="box" x="10" y="10" width="98%" height="95%" stroke="white" stroke-width="2" fill="transparent" />
         <text id="player1" x="100" y="50">Player 1</text>
         <text id="player2" x="400" y="50">Player 2</text>
+        <text id="lose" x="400" y="50">You Lose</text>
+        <text id="start" onclick="startGame()" x="400" y="50">Start Game</text>
     </svg>
 </body>
 </html>

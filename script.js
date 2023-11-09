@@ -3,6 +3,8 @@ var svg;
 var p1;
 var p2;
 
+var line;
+
 var p1Bar;
 var p2Bar;
 
@@ -15,7 +17,8 @@ var heightBox = 0;
 var velX = 10;
 var velY = 8;
 
-
+var lose;
+var start;
 
 window.onload = () => {
     ball = document.getElementById("ball");
@@ -28,9 +31,39 @@ window.onload = () => {
     p1Bar = document.getElementById("p1Bar");
     p2Bar = document.getElementById("p2Bar");
 
+    line = document.getElementById("line");
+
+    lose = document.getElementById("lose");
+    start = document.getElementById("start");
+
     document.addEventListener("mousemove", moveBar);
-    
+
+    p1Bar.style.display = "none";
+    p2Bar.style.display = "none";
+    ball.style.display = "none";
+    line.style.display = "none";
+    p1.style.display = "none";
+    p2.style.display = "none";
+    lose.style.display = "none";
+    start.style.display = "block";
+
     window.requestAnimationFrame(principalLoop);
+    
+}
+
+// Start the Game
+function startGame(){
+
+    ball.setAttribute("x", widthSVG/2);
+
+    p1Bar.style.display = "block";
+    p2Bar.style.display = "block";
+    ball.style.display = "block";
+    line.style.display = "block";
+    p1.style.display = "block";
+    p2.style.display = "block";
+    lose.style.display = "none";
+    start.style.display = "none";
 }
 
 // Controll of the program
@@ -46,6 +79,8 @@ function principalLoop(){
     moveBotBar();
     checkCrashP1();
     checkCrashP2();
+    checkBallOut();
+
     window.requestAnimationFrame(principalLoop);
 }
 
@@ -55,7 +90,7 @@ function moveBall(){
     let y = parseInt(ball.getAttribute("y"));
 
     // Move X
-    if(x+velX > widthBox || x+velX < 10){
+    if(x+velX > widthBox){
         velX *= -1;
     } else {
         ball.setAttribute("x", x+velX);
@@ -69,7 +104,7 @@ function moveBall(){
     }
 }
 
-// Asign dinamic positions to the text of Players and the Box rectangle
+// Asign dinamic positions to the text of Players, the Box rectangle, and Lose Text
 function setWindowDim(){
 
     p1.setAttribute("x", widthSVG/2 - (p1.getBoundingClientRect().width)-20);
@@ -79,6 +114,15 @@ function setWindowDim(){
     box.setAttribute("height", heightSVG-20);
 
     p2Bar.setAttribute("x", widthSVG-25-25);
+
+    widthLose = lose.getBoundingClientRect().width;
+    lose.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthLose)/2)));
+    lose.setAttribute("y", (parseInt(heightSVG)/2)-20);
+
+    widthStart = start.getBoundingClientRect().width;
+    start.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthStart)/2)));
+    start.setAttribute("y", (parseInt(heightSVG)/2)+20);
+
 }
 
 // Moves the bar of the player with the mouse
@@ -141,4 +185,23 @@ function checkCrashP2(){
     if( ((parseInt(ball.getAttribute("x"))+15) > (widthSVG-50)) && ( ( (parseInt(ball.getAttribute("y")) > parseInt(p2Bar.getAttribute("y"))) && (parseInt(ball.getAttribute("y")) < parseInt(p2Bar.getAttribute("y"))+120 )) || ( (parseInt(ball.getAttribute("y")+15) > parseInt(p2Bar.getAttribute("y"))) && (parseInt(ball.getAttribute("y")+15) < parseInt(p2Bar.getAttribute("y"))+120 )) ) ){
         velX *= -1;
     }
+}
+
+// Check if the Ball is Out of the field
+function checkBallOut(){
+    
+    if((ball.getAttribute("x")<10) || ball.getAttribute("x")>widthSVG-10){
+        endGame();
+    }
+}
+
+function endGame(){
+    p1Bar.style.display = "none";
+    p2Bar.style.display = "none";
+    ball.style.display = "none";
+    line.style.display = "none";
+    p1.style.display = "none";
+    p2.style.display = "none";
+    lose.style.display = "block";
+    start.style.display = "block";
 }
