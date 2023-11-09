@@ -43,8 +43,9 @@ function principalLoop(){
 
     setWindowDim();
     moveBall();
-    checkCrashP1();
     moveBotBar();
+    checkCrashP1();
+    checkCrashP2();
     window.requestAnimationFrame(principalLoop);
 }
 
@@ -100,12 +101,21 @@ function moveBar(e){
 
 // Moves the bar with a small "AI" like a bot
 function moveBotBar(){
-    centerBallY = parseFloat(ball.getAttribute("y"))+(15/2);
+    let centerBallY = parseFloat(ball.getAttribute("y"))+(15/2);
 
-    p2Bar.setAttribute("y", centerBallY-60);
+    // Limita la posición de la barra para que no se salga del área del juego
+
+    if(centerBallY < (p2Bar.getBoundingClientRect().height/2)+10){
+        p2Bar.setAttribute("y", 10);
+    }
+    else if(centerBallY > (heightSVG-(p2Bar.getBoundingClientRect().height/2)-10)){
+        p2Bar.setAttribute("y", heightSVG-120-10);
+    }else{
+        p2Bar.setAttribute("y", centerBallY-60);
+    }
 }
 
-// Check if the Ball crash with the Bar
+// Check if the Ball crash with the Bar1 in the TWO corners of the square
 function checkCrashP1(){
     // Heigth Ball: 15px
     // Widht Ball: 15px
@@ -115,6 +125,20 @@ function checkCrashP1(){
     // Distance Bar from the side; 25px
 
     if((parseInt(ball.getAttribute("x"))<(25+25)) && ( (parseInt(ball.getAttribute("y"))>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))<(parseInt(p1Bar.getAttribute("y"))+120)) || (parseInt(ball.getAttribute("y"))+15>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))+15<(parseInt(p1Bar.getAttribute("y"))+120)))){
+        velX *= -1;
+    }
+}
+
+// Check if the Ball crash with the Bar2 in the TWO corners of the square
+function checkCrashP2(){
+    // Heigth Ball: 15px
+    // Widht Ball: 15px
+
+    // Width Bar: 25px
+    // Height Bar: 120px
+    // Distance Bar from the side; 25px
+
+    if( ((parseInt(ball.getAttribute("x"))+15) > (widthSVG-50)) && ( ( (parseInt(ball.getAttribute("y")) > parseInt(p2Bar.getAttribute("y"))) && (parseInt(ball.getAttribute("y")) < parseInt(p2Bar.getAttribute("y"))+120 )) || ( (parseInt(ball.getAttribute("y")+15) > parseInt(p2Bar.getAttribute("y"))) && (parseInt(ball.getAttribute("y")+15) < parseInt(p2Bar.getAttribute("y"))+120 )) ) ){
         velX *= -1;
     }
 }
