@@ -25,7 +25,17 @@ text {
     display: none;
 }
 
+#start{
+    text-decoration: underline;
+}
+
 #start:hover, #restart:hover{
     text-decoration: underline;
     cursor: pointer;
+    color: yellow;
+}
+
+#title{
+    color: yellow;
+    font-size: 80px;
 }

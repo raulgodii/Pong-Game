@@ -22,6 +22,8 @@ var start;
 var restart;
 var cont;
 var result;
+var record;
+var title;
 
 window.onload = () => {
     ball = document.getElementById("ball");
@@ -41,6 +43,9 @@ window.onload = () => {
     restart = document.getElementById("restart");
     cont = document.getElementById("cont");
     result = document.getElementById("result");
+    record = document.getElementById("record");
+
+    title = document.getElementById("title");
 
     document.addEventListener("mousemove", moveBar);
 
@@ -55,6 +60,7 @@ window.onload = () => {
     restart.style.display = "none";
     cont.style.display = "none";
     result.style.display = "none";
+    record.style.display = "none";
 
     setWindowDim();
 
@@ -72,6 +78,7 @@ function restartGame(){
     velY = 8;
     cont.innerHTML = "0";
 
+    title.style.display = "none";
     p1Bar.style.display = "block";
     p2Bar.style.display = "block";
     ball.style.display = "block";
@@ -83,6 +90,7 @@ function restartGame(){
     start.style.display = "none";
     restart.style.display = "none";
     result.style.display = "none";
+    record.style.display = "none";
 }
 
 // Controll of the program
@@ -142,7 +150,7 @@ function setWindowDim(){
 
     widthStart = start.getBoundingClientRect().width;
     start.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthStart)/2)));
-    start.setAttribute("y", (parseInt(heightSVG)/2)+20);
+    start.setAttribute("y", (parseInt(heightSVG)/2)+50);
 
     widthRestart = restart.getBoundingClientRect().width;
     restart.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthRestart)/2)));
@@ -151,6 +159,13 @@ function setWindowDim(){
     widthResult = result.getBoundingClientRect().width;
     result.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthResult)/2)));
 
+    widthRecord = record.getBoundingClientRect().width;
+    record.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthRecord)/2)));
+    record.setAttribute("y", (parseInt(heightSVG)-20));
+
+    widthTitle = title.getBoundingClientRect().width;
+    title.setAttribute("x", ((parseInt(widthSVG)/2)-(parseInt(widthTitle)/2)));
+    title.setAttribute("y", (parseInt(heightSVG)/2)-50);
 }
 
 // Moves the bar of the player with the mouse
@@ -197,7 +212,9 @@ function checkCrashP1(){
     // Distance Bar from the side; 25px
 
     if((parseInt(ball.getAttribute("x"))<(25+25)) && ( (parseInt(ball.getAttribute("y"))>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))<(parseInt(p1Bar.getAttribute("y"))+120)) || (parseInt(ball.getAttribute("y"))+15>parseInt(p1Bar.getAttribute("y")))&&(parseInt(ball.getAttribute("y"))+15<(parseInt(p1Bar.getAttribute("y"))+120)))){
-        cont.innerHTML= (parseInt(cont.innerHTML)+1);
+        if(velX!=0 && velY!=0){
+            cont.innerHTML= (parseInt(cont.innerHTML)+1);
+        }
         if(velX<0){
             velX = (velX-2)*-1;
         }else{
@@ -231,7 +248,18 @@ function checkBallOut(){
 function endGame(){
     velX=0;
     velY=0;
-    result.innerHTML = ("Result: " + cont.innerHTML);
+
+    if(readCookie("record") != null){
+
+        if(readCookie("record")<parseInt(cont.innerHTML)) setCookie("record", parseInt(cont.innerHTML));
+
+        record.innerHTML = "Your Personal Record: " + readCookie("record");
+        record.style.display = "block";
+    } else {
+        setCookie("record", parseInt(cont.innerHTML));
+    }
+
+    result.innerHTML = ("Result: " + parseInt(cont.innerHTML));
     p1Bar.style.display = "none";
     p2Bar.style.display = "none";
     ball.style.display = "none";
@@ -243,4 +271,32 @@ function endGame(){
     lose.style.display = "block";
     restart.style.display = "block";
     result.style.display = "block";
+}
+
+
+function setCookie(id,val){
+    let date = new Date();
+
+    document.cookie = id+"="+val;
+}
+
+function readCookie(id){
+    let arrayCookie = document.cookie.split(";");
+
+    for (let cookie of arrayCookie) {
+        let splitCookie = cookie.trim().split("=");
+        if (splitCookie[0] === id) {
+            return splitCookie[1];
+        }
+    }
+
+    return null;
+}
+
+function deleteCookie(id){
+    if(readCookie(id)!=null){
+        document.cookie = id + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
+        return true;
+    }
+    return false;
 }
